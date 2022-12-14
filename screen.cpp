@@ -9,8 +9,10 @@
 
 using namespace std;
 
+
 #ifndef SCREEN
 #define SCREEN 1
+
 
 class Screen {
 private:
@@ -36,8 +38,6 @@ public:
 
   Screen() {
     winsize screen_size = this->get_size();
-    this->buff.resize(screen_size.ws_row);
-
     for (int row = 0; row < screen_size.ws_row; row++) {
       vector<string> cols;
 
@@ -49,14 +49,19 @@ public:
   }
 
   void refresh() {
-    cout << "\033[0;0f";
+    for (int rowi = 0; rowi < this->buff.size(); rowi++) {
+      vector<string> row = this->buff[rowi];
 
-    for (vector<string> row : this->buff) {
-      for (string col : row)
-        cout << col;
+      for (int coli = 0; coli < row.size(); coli++)
+        cout << "\e[" << rowi << ";" << coli << "f" << row[coli];
 
       cout << endl;
     }
+  }
+
+  void vcursor(bool enable) {
+    if (enable) cout << "\e[?25h";
+    else cout << "\e[?25l";
   }
 
 };
