@@ -27,18 +27,19 @@ public:
   }
 
   void refresh() {
-    // Cleanipg
+    // Removing old character from screen
     for (int row = 0; row < this->old_sprite.size(); row++)
       for (int col = 0; col < this->old_sprite[row].size(); col++)
         this->scr->buff[this->old_pos.y + row][this->old_pos.x + col] = " ";
 
-    // Drawing
+    // Drawing the new one
     for (int row = 0; row < this->sprite.size(); row++)
       for (int col = 0; col < this->sprite[row].size(); col++)
         this->scr->buff[this->pos.y + row][this->pos.x + col] = this->sprite[row][col];
 
     this->old_pos = this->pos;
-    this->scr->refresh(); // Refreshing screen
+    this->old_sprite = this->sprite;
+    this->scr->refresh();
   }
 
 };
