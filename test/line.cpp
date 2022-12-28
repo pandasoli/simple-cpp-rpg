@@ -1,19 +1,16 @@
 #include <iostream>
 #include <vector>
-#include <sstream>
-#include <cmath>
-#include "./libs.h"
+using namespace std;
 
-
-int random(int from, int to) {
-  return rand() % (to - from + 1) + from;
-}
+struct pos {
+  int x, y;
+};
 
 int abs(int n) {
   return n < 0 ? -n : n;
 }
 
-vector<Pos> makeLine(Pos from, Pos to) {
+vector<pos> makeLine(pos from, pos to) {
   const int
     dx = to.x - from.x,
     dy = to.y - from.y,
@@ -26,7 +23,7 @@ vector<Pos> makeLine(Pos from, Pos to) {
     x = from.x,
     y = from.y;
 
-  vector<Pos> scheme = {
+  vector<pos> scheme = {
     { x, y }
   };
 
@@ -38,13 +35,5 @@ vector<Pos> makeLine(Pos from, Pos to) {
   }
 
   return scheme;
-}
-
-string inttostr(int number) {
-  string res;
-  stringstream ss;
-  ss << number;
-  ss >> res;
-  return res;
 }
 

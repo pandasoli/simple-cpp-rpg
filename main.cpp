@@ -1,16 +1,13 @@
-#include <iostream>
 #include <vector>
+#include <ctime>
 #include "./screen.cpp"
 #include "./kbhit.cpp"
 #include "./enemy/enemy.h"
 #include "./player/player.h"
+#include "./libs/libs.h"
 
 using namespace std;
 
-
-int random(int from, int to) {
-  return rand() % (to - from + 1) + from;
-}
 
 int main(void) {
   Screen scr;
@@ -18,15 +15,16 @@ int main(void) {
   Player player (
     &scr,
     {
-      " O",
+      " M",
       "/|\\",
       "/ \\"
     },
-    { 30, 10 }
+    { 30, 13 }
   );
 
   int loop_times = 0;
   vector<Enemy> enemies;
+  int last_enemy_secs = -1;
 
   while (true) {
     // Sending keys to make player moves
@@ -42,11 +40,11 @@ int main(void) {
     }
 
     // Creating enemies
-    if (loop_times % 200 == 0) {
+    if (time(NULL) - last_enemy_secs >= 6) {
       Enemy enemy (
         &scr,
         {
-          " O",
+          " <",
           "/\\\\"
         },
         {
@@ -56,6 +54,7 @@ int main(void) {
       );
 
       enemies.push_back(enemy);
+      last_enemy_secs = time(NULL);
     }
 
     // Updating enemies

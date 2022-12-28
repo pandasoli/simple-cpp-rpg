@@ -1,0 +1,62 @@
+
+MODE POS = STRUCT (
+  INT x, y
+);
+
+OP +:= = (REF FLEX [] POS arr, POS item) VOID: (
+  [ LWB arr:UPB arr + 1 ] POS new;
+  new[ LWB arr:UPB arr ] := arr;
+  new[UPB arr + 1] := item;
+  arr := new
+);
+
+PROC make line = (POS from, to) [] POS: (
+  REAL
+    dx = x OF to - x OF from,
+    dy = y OF to - y OF from,
+    len = (ABS dx >= ABS dy|ABS dx|ABS dy),
+
+    delta x = dx / len,
+    delta y = dy / len;
+
+  REAL
+    x := x OF from,
+    y := y OF from;
+
+  FLEX [0] POS scheme;
+  scheme +:= POS ( ROUND x, ROUND y );
+
+  TO ENTIER len DO
+    x +:= delta x;
+    y +:= delta y;
+
+    scheme +:= POS ( ROUND x, ROUND y )
+  OD;
+
+  scheme
+);
+
+PROC print line = ([] POS line) VOID: (
+  FOR i TO UPB line DO
+    print(REPR 27 + "[" + whole(y OF line[i], 0) + ";" + whole(x OF line[i], 0) + "fX")
+  OD
+);
+
+PROC main = VOID: (
+  [] POS
+    line1 = make line(
+      ( 2, 2 ),
+      ( 10, 10 )
+    ),
+    line2 = make line(
+      ( 12, 10 ),
+      ( 4, 2 )
+    );
+
+  print line(line1);
+  print line(line2);
+
+  print(REPR 27 + "[30;0f")
+);
+main
+

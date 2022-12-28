@@ -41,7 +41,7 @@ public:
     for (int row = 0; row < screen_size.ws_row; row++) {
       vector<string> cols;
 
-      for (int col = 0; col < screen_size.ws_col; col++)
+      for (int col = 0; col < screen_size.ws_col + 1; col++)
         cols.push_back(" ");
 
       this->buff.push_back(cols);
